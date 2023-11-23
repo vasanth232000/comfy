@@ -8,3 +8,6 @@ export { default as ProductsContainer } from "./ProductsContainer";
 export { default as PaginatorContainer } from "./PaginatorContainer";
 export { default as ProductsGrid } from "./ProductsGrid";
 export { default as Loading } from "./Loading";
+export { default as CartItemsList } from "./CartItemsList";
+export { default as SectionTitle } from "./SectionTitle";
+export { default as CartTotals } from "./CartTotals";

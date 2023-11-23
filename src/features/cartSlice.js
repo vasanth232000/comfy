@@ -10,14 +10,19 @@ const defaultState = {
   orderTotal: 0,
 };
 
+const getCartFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("cart")) || defaultState;
+};
+
 const cartSlice = createSlice({
   name: "cart",
-  initialState: defaultState,
+  initialState: getCartFromLocalStorage(),
   reducers: {
     addItem: (state, action) => {
       const item = action.payload;
       if (state.cartItems.length === 0) {
         state.cartItems.push(item);
+        cartSlice.caseReducers.calculateTotals(state);
         return;
       }
       let isItemExist = state.cartItems.find(
@@ -28,27 +33,34 @@ const cartSlice = createSlice({
       } else {
         state.cartItems.push(item);
       }
+      cartSlice.caseReducers.calculateTotals(state);
     },
     removeItem: (state, action) => {
       const id = action.payload;
       const newItems = state.cartItems.filter((item) => item.cartId !== id);
       state.cartItems = newItems;
+      cartSlice.caseReducers.calculateTotals(state);
     },
     clearCart: (state) => {
-      state.cartItems = [];
+      localStorage.setItem("cart", JSON.stringify(defaultState));
+      return defaultState;
     },
     editItem: (state, action) => {
-      console.log("edit");
+      const id = action.payload.cartId;
+      const amount = action.payload.amount;
+      const currItem = state.cartItems.find((product) => product.cartId === id);
+      currItem.amount = amount;
+      cartSlice.caseReducers.calculateTotals(state);
     },
-    calaculateTotals: (state) => {
+    calculateTotals: (state) => {
       let amount = 0;
       state.cartItems.map((item) => {
         amount += item.amount;
       });
       state.numItemsInCart = amount;
+      localStorage.setItem("cart", JSON.stringify(state));
     },
   },
 });
-export const { addItem, removeItem, clearCart, editItem, calaculateTotals } =
-  cartSlice.actions;
+export const { addItem, removeItem, clearCart, editItem } = cartSlice.actions;
 export default cartSlice.reducer;
