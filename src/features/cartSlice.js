@@ -54,10 +54,15 @@ const cartSlice = createSlice({
     },
     calculateTotals: (state) => {
       let amount = 0;
+      let total = 0;
       state.cartItems.map((item) => {
         amount += item.amount;
+        total += item.amount * item.price;
       });
       state.numItemsInCart = amount;
+      state.cartTotal = total;
+      state.tax = 0.1 * state.cartTotal;
+      state.orderTotal = state.cartTotal + state.shipping + state.tax;
       localStorage.setItem("cart", JSON.stringify(state));
     },
   },
