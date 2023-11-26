@@ -18,6 +18,9 @@ import { loader as SinglePageLoader } from "./Pages/SingleProduct";
 import { loader as ProductsLoader } from "./Pages/Products";
 import { action as RegisterAction } from "./Pages/Register";
 import { action as LoginAction } from "./Pages/Login";
+import { action as CheckoutAction } from "./Pages/Checkout";
+import { loader as CheckoutLoader } from "./Pages/Checkout";
+import { loader as OrderLoader } from "./Pages/Orders";
 import { store } from "./Store";
 import ErrorElement from "./Components/ErrorElement";
 
@@ -44,10 +47,13 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
+        loader: CheckoutLoader(store),
+        action: CheckoutAction(store),
       },
       {
         path: "/orders",
         element: <Orders />,
+        loader: OrderLoader(store),
       },
       {
         path: "/products",
