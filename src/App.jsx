@@ -16,6 +16,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { loader as LandingLoader } from "./Pages/Landing";
 import { loader as SinglePageLoader } from "./Pages/SingleProduct";
 import { loader as ProductsLoader } from "./Pages/Products";
+import { action as RegisterAction } from "./Pages/Register";
+import { action as LoginAction } from "./Pages/Login";
+import { store } from "./Store";
 import ErrorElement from "./Components/ErrorElement";
 
 const router = createBrowserRouter([
@@ -62,11 +65,13 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
     errorElement: <Error />,
+    action: LoginAction(store),
   },
   {
     path: "/register",
     element: <Register />,
     errorElement: <Error />,
+    action: RegisterAction,
   },
 ]);
 
